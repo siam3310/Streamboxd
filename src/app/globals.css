@@ -2,32 +2,81 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+
+
+body{
+  color: white;
+  background-color: black;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+.swiper-pagination-bullet.swiper-pagination-bullet-active{
+  background:white;
+  opacity: 1;
+}
+
+span.swiper-pagination-bullet{
+  background: gray;
+  opacity: 0.5;
+}
+
+div.swiper-button-prev{
+  color: white;
+}
+
+div.swiper-button-next{
+  color: white;
+}
+div.swiper-button-prev.swiper-button-disabled
+{
+  display: none;
+}
+
+/* Default scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #2e2e2e; /* Background of the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #555; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners of the scrollbar thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #888; /* Color when hovered */
+}
+
+/* Apply scrollbar styles only for non-mobile view */
+@media (min-width: 768px) {
+  /* Non-mobile scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #2e2e2e; /* Background of the scrollbar track */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #555; /* Color of the scrollbar thumb */
+    border-radius: 10px; /* Rounded corners of the scrollbar thumb */
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #888; /* Color when hovered */
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+/* Mobile view styles */
+@media (max-width: 767px) {
+  /* Override scrollbar styles for mobile view */
+  ::-webkit-scrollbar {
+    width: auto; /* Reset width for mobile */
+  }
+
+ 
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}

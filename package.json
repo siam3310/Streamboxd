@@ -9,18 +9,40 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
+    "@ducanh2912/next-pwa": "^10.2.8",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@tailwindcss/line-clamp": "^0.4.4",
+    "bootstrap": "^5.3.3",
+    "color-thief-node": "^1.0.4",
+    "color-thief-react": "^2.1.0",
+    "color.js": "^1.2.0",
+    "extract-colors": "^4.0.6",
+    "fast-average-color": "^9.4.0",
+    "framer-motion": "^11.3.31",
+    "get-pixels": "^3.3.3",
+    "next": "14.2.5",
     "react": "^18",
+    "react-bootstrap": "^2.10.4",
     "react-dom": "^18",
-    "next": "14.2.5"
+    "react-extract-colors": "^1.0.3",
+    "react-icons": "^5.3.0",
+    "react-slick": "^0.30.2",
+    "react-swipeable": "^7.0.1",
+    "slick-carousel": "^1.8.1",
+    "swiper": "^11.1.9"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@types/color-thief-node": "^1.0.4",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-slick": "^0.23.13",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.5",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.5"
+    "typescript": "^5"
   }
 }
