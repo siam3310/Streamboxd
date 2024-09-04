@@ -42,14 +42,14 @@ const Showcase: React.FC<ShowcaseProps> = ({ heading, items_list }) => {
   };
 
   return (
-    <div className="md:pl-8 w-[100vw] md:pr-8 md:pb-1 md:pt-1 pb-0 pt-5 pl-2 pr-2 relative">
-      <h1 className="text-md md:text-xl font-bold pb-4">{heading}</h1>
+    <div className="md:pl-8 w-[100vw] md:pr-8 md:pb-1 md:pt-1 pb-0 pt-5  relative">
+      <h1 className="text-md md:text-xl font-bold pb-4 pl-1 md:pl-0">{heading}</h1>
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y]}
         breakpoints={{
           320: {
             slidesPerView: 3,
-            spaceBetween: 5,
+            spaceBetween: 1,
           },
           640: {
             slidesPerView: 2,
@@ -74,7 +74,7 @@ const Showcase: React.FC<ShowcaseProps> = ({ heading, items_list }) => {
         {items_list.map((item) => (
           <SwiperSlide
             key={item.id}
-            className="relative sm:hover:scale-95 sm:hover:z-10 sm:transition-transform sm:duration-300 group"
+            className="relative px-1 md:px-0 sm:hover:scale-95 sm:hover:z-10 sm:transition-transform sm:duration-300 group"
             onClick={() =>
               handleSlideClick(
                 item.id,
@@ -108,7 +108,7 @@ const Showcase: React.FC<ShowcaseProps> = ({ heading, items_list }) => {
               </div>
             </div>
 
-            <div className="bottom-0 left-0 right-0 pl-4 md:pl-4 pb-0 pt-1 text-white z-10">
+            <div className="bottom-0 left-0 right-0 pl-4 md:pl-8 pb-0 pt-1 text-white z-10">
               <h2
                 className="text-xs md:text-lg font-semibold hidden md:block"
                 style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 1)" }}
@@ -122,15 +122,15 @@ const Showcase: React.FC<ShowcaseProps> = ({ heading, items_list }) => {
         <div
           ref={navigationNextRef}
           onClick={() => swiperRef.current?.slideNext()}
-          className="z-10 absolute w-16 h-full bg-gradient-to-l from-black to-transparent [&.active]:flex transition duration-300 hidden active justify-start items-center cursor-pointer top-[30%] md:top-[40%] right-0 -translate-y-1/3 md:-translate-y-2/4 hover:text-white text-white text-4xl"
+          className="z-10 absolute w-16 h-full bg-gradient-to-l from-black to-transparent [&.active]:flex transition duration-300 hidden active justify-start items-center cursor-pointer top-0 bottom-0 md:top-[40%] right-0 md:-translate-y-2/4 hover:text-white text-white text-4xl"
         >
-          <MdKeyboardArrowRight className="-translate-x-[-40%] md:-translate-x-[-26%] md:hover:scale-150 transition md:text-8xl text-6xl" />
+          <MdKeyboardArrowRight className="translate-x-[40%] md:translate-x-[26%] md:hover:scale-150 transition md:text-8xl text-6xl" />
         </div>
 
         <div
           ref={navigationPrevRef}
           onClick={() => swiperRef.current?.slidePrev()}
-          className="z-10 absolute w-16 h-full bg-gradient-to-r from-black to-transparent [&.active]:flex transition duration-300 hidden active justify-end items-center cursor-pointer top-[30%] md:top-[40%] left-0 -translate-y-1/3 md:-translate-y-2/4 hover:text-white text-white text-4xl"
+          className="z-10 absolute w-16 h-full bg-gradient-to-r from-black to-transparent [&.active]:flex transition duration-300 hidden active justify-end items-center cursor-pointer top-0 bottom-0 md:top-[40%] left-0  md:-translate-y-2/4 hover:text-white text-white text-4xl"
         >
           <MdKeyboardArrowLeft className="-translate-x-[40%] md:-translate-x-[26%] md:hover:scale-150 transition md:text-8xl text-6xl" />
         </div>

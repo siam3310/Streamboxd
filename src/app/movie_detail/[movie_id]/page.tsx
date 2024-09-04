@@ -66,7 +66,7 @@ export default function Page({ params }: { params: { movie_id: string } }) {
       <div className="absolute inset-0 bg-black opacity-70 z-10"></div>
 
       <div className="relative flex flex-col px-4 pt-4 md:px-40 md:flex-row md:pt-0 items-center min-h-[89vh] md:min-h-screen z-20">
-        <div className="w-[25vh] md:w-[50%] flex justify-center">
+        <div className="w-[30vh] md:w-[50%] flex justify-center">
           <img
             src={`https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`}
             alt={movieDetails.title}
@@ -126,7 +126,7 @@ export default function Page({ params }: { params: { movie_id: string } }) {
         </div>
       </div>
 
-      <div className="relative z-20 px-4 md:px-64">
+      <div className="relative z-10 pl-4 pr-2 md:px-64">
         <CastList cast={cast} />
       </div>
     </div>

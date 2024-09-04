@@ -41,7 +41,7 @@ const CastList: React.FC<CastListProps> = memo(({ cast, skeleton }) => {
   };
 
   return (
-    <div className="relative py-5">
+    <div className="relative ">
       <h2 className="text-2xl font-bold text-white mb-5">Cast</h2>
       <Swiper
         modules={[Navigation, Pagination, A11y]}

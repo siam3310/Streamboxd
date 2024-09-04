@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { FaSearch } from "react-icons/fa";
 
 const Page = () => {
@@ -11,20 +11,20 @@ const Page = () => {
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [searchPerformed, setSearchPerformed] = useState(false); // Add state to track search
+  const [searchPerformed, setSearchPerformed] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    if (query) {
-      handleSearch();
-    }
-  }, [page]);
-
+  // Debounce search function
   const handleSearch = async () => {
     if (!query) return;
     setLoading(true);
     setError(null);
-    setSearchPerformed(true); // Indicate that a search has been performed
+    setSearchPerformed(true);
+    setResults([]); // Clear results before fetching new data
+    setPage(1); // Reset page to 1 for new search
 
     try {
       const response = await fetch(`/api/search/${query}/${page}`);
@@ -33,7 +33,6 @@ const Page = () => {
       }
 
       const data = await response.json();
-      console.log(data);
       setResults(data.results);
       setTotalPages(data.total_pages);
     } catch (err) {
@@ -43,10 +42,51 @@ const Page = () => {
     }
   };
 
-  const handlePageChange = (newPage: number) => {
-    if (newPage < 1 || newPage > totalPages) return;
-    setPage(newPage);
+  // Load more results
+  const handleLoadMore = async () => {
+    if (page >= totalPages) return;
+    setLoadingMore(true);
+
+    try {
+      const nextPage = page + 1;
+      const response = await fetch(`/api/search/${query}/${nextPage}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch more results");
+      }
+
+      const data = await response.json();
+      setResults((prevResults) => [...prevResults, ...data.results]);
+      setPage(nextPage);
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoadingMore(false);
+    }
   };
+
+  // Handle scroll event with delay
+  const handleScroll = useCallback(() => {
+    if (scrollTimeout) clearTimeout(scrollTimeout);
+
+    const timeout = setTimeout(() => {
+      const scrollPosition = window.innerHeight + window.scrollY;
+      const bottomPosition = document.documentElement.offsetHeight;
+
+      if (scrollPosition + 200 >= bottomPosition && !loading && !loadingMore) {
+        handleLoadMore();
+      }
+    }, 300);
+
+    setScrollTimeout(timeout);
+  }, [loading, loadingMore, scrollTimeout]);
+
+  // Debounce search input removed
+  // Only search on button click now
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
 
   const handleSlideClick = (movieId: number, type: string) => {
     router.push(`/${type}/${movieId}`);
@@ -86,70 +126,58 @@ const Page = () => {
           </button>
         </div>
 
-        {loading && <p className="text-center">Loading...</p>}
+        {loading && (
+          <div className="flex items-center justify-center w-full h-[100vh]">
+            <div className="loader"></div>
+          </div>
+        )}
         {error && <p className="text-center text-red-500">{error}</p>}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-6">
-          {results.length > 0
-            ? results.map((item) => (
-                <div
-                  key={item.id}
-                  className="cursor-pointer"
-                  onClick={() =>
-                    handleSlideClick(
-                      item.id,
-                      item.first_air_date ? "tv_series_detail" : "movie_detail"
-                    )
+        {!loading && results.length > 0 && (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-6">
+            {results.map((item) => (
+              <div
+                key={item.id}
+                className="cursor-pointer"
+                onClick={() =>
+                  handleSlideClick(
+                    item.id,
+                    item.first_air_date ? "tv_series_detail" : "movie_detail"
+                  )
+                }
+              >
+                <img
+                  src={
+                    item.poster_path
+                      ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
+                      : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"
                   }
+                  alt={item.title || item.name}
+                  className="w-full h-64 object-cover rounded-lg shadow-lg"
+                />
+                <h2
+                  className="mt-2 text-lg font-semibold text-center"
+                  style={{
+                    display: "-webkit-box",
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    WebkitLineClamp: 2,
+                    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)",
+                  }}
                 >
-                  <img
-                    src={
-                      item.poster_path
-                        ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
-                        : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"
-                    }
-                    alt={item.title || item.name}
-                    className="w-full h-64 object-cover rounded-lg shadow-lg"
-                  />
-                  <h2
-                    className="mt-2 text-lg font-semibold text-center"
-                    style={{
-                      display: "-webkit-box",
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      WebkitLineClamp: 2,
-                      textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)",
-                    }}
-                  >
-                    {item.title || item.name}
-                  </h2>
-                </div>
-              ))
-            : !loading && searchPerformed && (
-                <p className="col-span-full text-center">No results found.</p>
-              )}
-        </div>
+                  {item.title || item.name}
+                </h2>
+              </div>
+            ))}
+          </div>
+        )}
+        {!loading && results.length === 0 && searchPerformed && (
+          <div className=" text-center justify-center w-full h-full">No results found.</div>
+        )}
 
-        {/* Only show pagination if there are results */}
-        {results.length > 0 && (
-          <div className="flex justify-between mt-8">
-            <button
-              onClick={() => handlePageChange(page - 1)}
-              disabled={page === 1}
-              className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-500"
-            >
-              Previous
-            </button>
-            <span className="text-lg">
-              Page {page} of {totalPages}
-            </span>
-            <button
-              onClick={() => handlePageChange(page + 1)}
-              disabled={page === totalPages}
-              className="bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-600"
-            >
-              Next
-            </button>
+        {loadingMore && (
+          <div className="flex items-center justify-center my-5">
+            <div className="loader"></div>
           </div>
         )}
       </div>

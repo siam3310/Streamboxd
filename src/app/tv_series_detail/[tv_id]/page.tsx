@@ -246,7 +246,7 @@ export default function Page({ params }: { params: { tv_id: string } }) {
         )}
 
         
-          <div className="max-h-[500px] z-10 md:max-h-[590px] overflow-y-auto w-full">
+          <div className="max-h-[500px] z-10 mb-5 md:max-h-[590px] overflow-y-auto w-full">
             {episodes.map((episode) => (
               <div
                 key={episode.id}

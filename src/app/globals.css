@@ -2,32 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
-body{
+body {
   color: white;
   background-color: black;
 }
 
-.swiper-pagination-bullet.swiper-pagination-bullet-active{
-  background:white;
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
+  background: white;
   opacity: 1;
 }
 
-span.swiper-pagination-bullet{
+span.swiper-pagination-bullet {
   background: gray;
   opacity: 0.5;
 }
 
-div.swiper-button-prev{
+div.swiper-button-prev {
   color: white;
 }
 
-div.swiper-button-next{
+div.swiper-button-next {
   color: white;
 }
-div.swiper-button-prev.swiper-button-disabled
-{
+div.swiper-button-prev.swiper-button-disabled {
   display: none;
 }
 
@@ -76,11 +73,27 @@ div.swiper-button-prev.swiper-button-disabled
   ::-webkit-scrollbar {
     width: 8px; /* Reset width for mobile */
   }
-
- 
 }
 
 .inner-focus-ring:focus {
   outline: none;
   box-shadow: inset 0 0 0 2px rgba(234, 179, 8, 1); /* Adjust color and width as needed */
+}
+
+.loader {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #ffffff;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

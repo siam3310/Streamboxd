@@ -1,37 +1,80 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 
 const Page = ({ params }: { params: { type: string; id: string } }) => {
   const { type, id } = params;
+  const [selectedApi, setSelectedApi] = useState("vidsrc");
+  const [loading, setLoading] = useState(false);
 
-  let iframeSrc = '';
-
-  try {
-    iframeSrc =
-      type === 'movie'
-        ? `https://vidsrc.xyz/embed/movie/${id}`
-        : type === 'tv'
-        ? `https://vidsrc.xyz/embed/tv?imdb=${id}&season=1&episode=1`
-        : '';
-    
-    if (!iframeSrc) {
-      throw new Error('Invalid type or ID');
+  const getIframeSrc = () => {
+    let iframeSrc = "";
+    if (selectedApi === "vidsrc") {
+      iframeSrc =
+        type === "movie"
+          ? `https://vidsrc.xyz/embed/movie/${id}`
+          : type === "tv"
+          ? `https://vidsrc.xyz/embed/tv?imdb=${id}&season=1&episode=1`
+          : "";
+    } else if (selectedApi === "multiembed") {
+      iframeSrc =
+        type === "movie"
+          ? `https://multiembed.mov/?video_id=${id}`
+          : type === "tv"
+          ? `https://multiembed.mov/?video_id=${id}&s=1&e=1`
+          : "";
     }
-  } catch (error) {
-    console.error('Error constructing iframe source:', error);
-  }
+
+    return iframeSrc;
+  };
+
+  useEffect(() => {
+    // Set loading to true when API changes
+    setLoading(true);
+
+    // Simulate a delay for loading (e.g., waiting for iframe to load)
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 500); // Adjust the delay time as needed
+
+    return () => clearTimeout(timer);
+  }, [selectedApi]);
 
   return (
     <div>
-      {iframeSrc ? (
-        <iframe
-          src={iframeSrc}
-          style={{ width: "100%", height: "80vh", padding: "2vw" }}
-          frameBorder="0"
-          allowFullScreen
-        />
-      ) : (
-        <p>Error loading content. Please check the type and ID.</p>
-      )}
+      <div className="w-full h-[80vh] px-[2vw] flex items-center justify-center">
+        {loading ? (
+          <div className="loader"></div> // Spinner while loading
+        ) : (
+          <iframe
+            className="w-full h-full"
+            src={getIframeSrc()}
+            allowFullScreen
+          />
+        )}
+      </div>
+      <div className="flex h-10 px-[2vw] flex-row mt-4 gap-3 items-center justify-center">
+        <button
+          className={`h-full pl-5 pr-5 rounded text-black ${
+            selectedApi === "vidsrc"
+              ? "bg-yellow-700"
+              : "bg-yellow-500 hover:bg-yellow-700"
+          }`}
+          onClick={() => setSelectedApi("vidsrc")}
+        >
+          Vidsrc
+        </button>
+        <button
+          className={`h-full pl-5 pr-5 rounded text-black ${
+            selectedApi === "multiembed"
+              ? "bg-yellow-700"
+              : "bg-yellow-500 hover:bg-yellow-700"
+          }`}
+          onClick={() => setSelectedApi("multiembed")}
+        >
+          Multiembed
+        </button>
+      </div>
     </div>
   );
 };
