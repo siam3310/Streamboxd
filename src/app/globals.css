@@ -7,6 +7,7 @@ body {
   background-color: black;
 }
 
+/* Swiper pagination bullets */
 .swiper-pagination-bullet.swiper-pagination-bullet-active {
   background: white;
   opacity: 1;
@@ -17,6 +18,7 @@ span.swiper-pagination-bullet {
   opacity: 0.5;
 }
 
+/* Swiper navigation buttons */
 div.swiper-button-prev {
   color: white;
 }
@@ -24,6 +26,7 @@ div.swiper-button-prev {
 div.swiper-button-next {
   color: white;
 }
+
 div.swiper-button-prev.swiper-button-disabled {
   display: none;
 }
@@ -72,6 +75,13 @@ div.swiper-button-prev.swiper-button-disabled {
   /* Override scrollbar styles for mobile view */
   ::-webkit-scrollbar {
     width: 8px; /* Reset width for mobile */
+  }
+}
+
+/* Firefox-specific adjustments */
+@-moz-document url-prefix() {
+  .showcase-swiper {
+    /* Add any specific styles for Firefox here if needed */
   }
 }
 
