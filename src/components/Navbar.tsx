@@ -43,7 +43,7 @@ const Navbar = () => {
                       // Adjusted text size for mobile
                       pathname === item.href
                         ? "text-yellow-500"
-                        : "text-gray-90 hover:text-yellow-500 dark:text-white md:dark:hover:text-yellow-200"
+                        : "text-gray-90 hover:text-yellow-500 dark:text-white md:dark:hover:text-yellow-600"
                     }`}
                     aria-current={pathname === item.href ? "page" : undefined}
                   >

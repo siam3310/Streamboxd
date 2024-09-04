@@ -11,6 +11,7 @@ const Page = () => {
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [searchPerformed, setSearchPerformed] = useState(false); // Add state to track search
   const router = useRouter();
 
   useEffect(() => {
@@ -23,6 +24,7 @@ const Page = () => {
     if (!query) return;
     setLoading(true);
     setError(null);
+    setSearchPerformed(true); // Indicate that a search has been performed
 
     try {
       const response = await fetch(`/api/search/${query}/${page}`);
@@ -65,7 +67,7 @@ const Page = () => {
         <div className="absolute inset-0 bg-black opacity-70"></div>
       </div>
 
-      <div className="relative z-10 p-8 md:px-40">
+      <div className="relative z-10 p-4 mt-5 md:px-40">
         <div className="flex items-center mb-6">
           <input
             type="text"
@@ -73,8 +75,9 @@ const Page = () => {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyPress}
             placeholder="Search for movies or TV shows..."
-            className="flex-grow p-3 h-14 rounded-l-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            className="flex-grow p-3 h-14 rounded-l-lg bg-gray-800 text-white focus:outline-none inner-focus-ring"
           />
+
           <button
             onClick={handleSearch}
             className="bg-yellow-500 p-3 h-14 w-14 rounded-r-lg hover:bg-yellow-600 flex items-center justify-center"
@@ -122,7 +125,7 @@ const Page = () => {
                   </h2>
                 </div>
               ))
-            : !loading && (
+            : !loading && searchPerformed && (
                 <p className="col-span-full text-center">No results found.</p>
               )}
         </div>

@@ -245,7 +245,7 @@ export default function Page({ params }: { params: { tv_id: string } }) {
           </h1>
         )}
 
-        <div className=" bottom-0 z-20 right-0 left-0 bg-gradient-to-t from-black to-white">
+        
           <div className="max-h-[500px] z-10 md:max-h-[590px] overflow-y-auto w-full">
             {episodes.map((episode) => (
               <div
@@ -272,7 +272,7 @@ export default function Page({ params }: { params: { tv_id: string } }) {
               </div>
             ))}
           </div>
-        </div>
+        
 
         <CastList cast={cast} />
       </div>

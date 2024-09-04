@@ -74,9 +74,13 @@ div.swiper-button-prev.swiper-button-disabled
 @media (max-width: 767px) {
   /* Override scrollbar styles for mobile view */
   ::-webkit-scrollbar {
-    width: auto; /* Reset width for mobile */
+    width: 8px; /* Reset width for mobile */
   }
 
  
 }
 
+.inner-focus-ring:focus {
+  outline: none;
+  box-shadow: inset 0 0 0 2px rgba(234, 179, 8, 1); /* Adjust color and width as needed */
+}

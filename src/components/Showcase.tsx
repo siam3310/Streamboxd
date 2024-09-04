@@ -92,7 +92,7 @@ const Showcase: React.FC<ShowcaseProps> = ({ heading, items_list }) => {
                     : item.backdrop_path
                 }`}
                 alt={item.title}
-                className="w-full h-full object-cover rounded sm:rounded-none"
+                className="w-full h-full object-cover rounded sm:rounded-none transition-all group-hover:scale-95"
               />
 
               <div className="hidden md:block absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-black to-transparent "></div>
