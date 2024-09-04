@@ -101,7 +101,7 @@ const Page = () => {
   }
 
   return (
-    <div className="overflow-hidden">
+    <div className="">
       <Carousel movies_list={moviesCarousel} />
       {moviesNowPlaying.length > 0 && (
         <Showcase heading={"Latest Movies"} items_list={moviesNowPlaying} />
