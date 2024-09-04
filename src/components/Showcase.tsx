@@ -110,7 +110,7 @@ const Showcase: React.FC<ShowcaseProps> = ({ heading, items_list }) => {
               </div>
             </div>
 
-            <div className="bottom-0 md:h-14 left-0 right-0 pl-4 md:pl-8 pb-0 pt-1 text-white z-10 line-clamp-2">
+            <div className="bottom-0 left-0 right-0 pl-4 md:pl-8 pb-0 pt-1 text-white z-10 line-clamp-1">
               <h2 className="text-xs md:text-lg font-semibold hidden md:block">
                 {item?.title || item?.original_name}
               </h2>
