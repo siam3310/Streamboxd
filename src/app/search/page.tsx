@@ -13,8 +13,12 @@ const Page = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [searchPerformed, setSearchPerformed] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(null);
-  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(
+    null
+  );
+  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(
+    null
+  );
   const router = useRouter();
 
   // Debounce search function
@@ -115,7 +119,7 @@ const Page = () => {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyPress}
             placeholder="Search for movies or TV shows..."
-            className="flex-grow p-3 h-14 rounded-l-lg bg-gray-800 text-white focus:outline-none inner-focus-ring"
+            className="flex-grow p-3 h-14 rounded-l-lg bg-zinc-900 text-white focus:outline-none inner-focus-ring"
           />
 
           <button
@@ -149,11 +153,12 @@ const Page = () => {
                   src={
                     item.poster_path
                       ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
-                      : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"
+                      : "/images/poster-holder.jpg"
                   }
                   alt={item.title || item.name}
                   className="w-full h-64 object-cover rounded-lg shadow-lg"
                 />
+
                 <h2
                   className="mt-2 text-lg font-semibold text-center"
                   style={{
@@ -172,7 +177,9 @@ const Page = () => {
           </div>
         )}
         {!loading && results.length === 0 && searchPerformed && (
-          <div className=" text-center justify-center w-full h-full">No results found.</div>
+          <div className=" text-center justify-center w-full h-full">
+            No results found.
+          </div>
         )}
 
         {loadingMore && (
