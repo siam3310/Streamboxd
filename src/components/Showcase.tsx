@@ -42,8 +42,10 @@ const Showcase: React.FC<ShowcaseProps> = ({ heading, items_list }) => {
   };
 
   return (
-    <div className="md:pl-8 w-[100vw] md:pr-8 md:pb-1 md:pt-1 pb-0 pt-5  relative">
-      <h1 className="text-md md:text-xl font-bold pb-4 pl-1 md:pl-0">{heading}</h1>
+    <div className="md:pl-8 w-[100vw] md:pr-8 md:pb-5 md:pt-1 pb-0 pt-5  relative">
+      <h1 className="text-md md:text-xl font-bold pb-4 pl-1 md:pl-0">
+        {heading}
+      </h1>
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y]}
         breakpoints={{
@@ -108,11 +110,8 @@ const Showcase: React.FC<ShowcaseProps> = ({ heading, items_list }) => {
               </div>
             </div>
 
-            <div className="bottom-0 left-0 right-0 pl-4 md:pl-8 pb-0 pt-1 text-white z-10">
-              <h2
-                className="text-xs md:text-lg font-semibold hidden md:block"
-                
-              >
+            <div className="bottom-0 md:h-14 left-0 right-0 pl-4 md:pl-8 pb-0 pt-1 text-white z-10 line-clamp-2">
+              <h2 className="text-xs md:text-lg font-semibold hidden md:block">
                 {item?.title || item?.original_name}
               </h2>
             </div>
