@@ -21,7 +21,7 @@ const Carousel = ({ movies_list }: { movies_list: any[] }) => {
   return (
     <Swiper
       modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-      className="md:h-[50vh] h-[30vh] w-[100vw]"
+      className="md:h-[50vh] h-[30vh] w-[100vw] md:mb-1 mb-0"
       slidesPerView={1}
       pagination={{ clickable: true }}
       autoplay={{
