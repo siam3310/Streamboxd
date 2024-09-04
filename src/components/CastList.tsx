@@ -102,14 +102,11 @@ const CastList: React.FC<CastListProps> = memo(({ cast, skeleton }) => {
           onClick={() => swiperRef.current?.slidePrev()}
           className="z-10 absolute w-20 h-full bg-gradient-to-r from-black to-transparent  [&.active]:flex transition duration-300 hidden active justify-end items-center cursor-pointer top-2/4 left-0 -translate-y-2/4 hover:text-white text-white text-4xl"
         >
-          <MdKeyboardArrowLeft
-            className="-translate-x-[126%] md:-translate-x-[26%] md:hover:scale-150 transition md:text-8xl text:2xl"
-           
-          />
+          <MdKeyboardArrowLeft className="-translate-x-[126%] md:-translate-x-[26%] md:hover:scale-150 transition md:text-8xl text:2xl" />
         </div>
       </Swiper>
     </div>
   );
 });
-
+CastList.displayName = "CastList";
 export default CastList;
