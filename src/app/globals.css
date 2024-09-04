@@ -97,3 +97,7 @@ div.swiper-button-prev.swiper-button-disabled {
     transform: rotate(360deg);
   }
 }
+
+.debug-border {
+  border: 1px solid red;
+}
