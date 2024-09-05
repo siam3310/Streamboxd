@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Streamboxd
+
+Streamboxd is an online Movie & TV Show streaming website built with [Next.js](https://nextjs.org), [TypeScript](https://www.typescriptlang.org/), [TMDB Api](https://developer.themoviedb.org/reference/intro/getting-started)
 
 ## Getting Started
 
