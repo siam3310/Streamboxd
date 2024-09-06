@@ -20,19 +20,22 @@ const Page = () => {
   // Debounce search function
   const handleSearch = async () => {
     if (!query) return;
+  
     setLoading(true);
     setError(null);
     setSearchPerformed(true);
-    setResults([]); // Clear results before fetching new data
-    setPage(1); // Reset page to 1 for new search
-
+  
+    // Reset results and pagination
+    setResults([]);
+    setPage(1);
+  
     try {
-      const response = await fetch(`/api/search/${query}/${page}`);
+      const response = await fetch(`/api/search/${query}/1`);
       if (!response.ok) {
         throw new Error("Failed to fetch search results");
       }
-
       const data = await response.json();
+  
       setResults(data.results);
       setTotalPages(data.total_pages);
     } catch (err) {
@@ -41,20 +44,25 @@ const Page = () => {
       setLoading(false);
     }
   };
+  
 
   // Load more results
   const handleLoadMore = async () => {
     if (page >= totalPages || loadingMore) return;
+  
     setLoadingMore(true);
-
+    const nextPage = page + 1;
+  
     try {
-      const nextPage = page + 1;
+      console.log(`Fetching page ${nextPage}`);
       const response = await fetch(`/api/search/${query}/${nextPage}`);
       if (!response.ok) {
         throw new Error("Failed to fetch more results");
       }
-
+  
       const data = await response.json();
+      console.log(`Received ${data.results.length} results for page ${nextPage}`);
+  
       setResults((prevResults) => [...prevResults, ...data.results]);
       setPage(nextPage);
       setTotalPages(data.total_pages);
@@ -64,22 +72,24 @@ const Page = () => {
       setLoadingMore(false);
     }
   };
+  
 
   // Handle scroll event with delay
   const handleScroll = useCallback(() => {
     if (scrollTimeout) clearTimeout(scrollTimeout);
-
+  
     const timeout = setTimeout(() => {
       const scrollPosition = window.innerHeight + window.scrollY;
       const bottomPosition = document.documentElement.offsetHeight;
-
+  
       if (scrollPosition + 200 >= bottomPosition && !loading && !loadingMore) {
         handleLoadMore();
       }
-    }, 300);
-
+    }, 500); // Adjust debounce delay as needed
+  
     setScrollTimeout(timeout);
   }, [loading, loadingMore, scrollTimeout]);
+  
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
