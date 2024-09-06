@@ -1,6 +1,10 @@
 ## Streamboxd
 
-Streamboxd is an online Movie & TV Show streaming website built with [Next.js](https://nextjs.org), [TypeScript](https://www.typescriptlang.org/), [TMDB Api](https://developer.themoviedb.org/reference/intro/getting-started)
+An online Movie & TV Show streaming website built with [Next.js](https://nextjs.org), [TypeScript](https://www.typescriptlang.org/), [TMDB Api](https://developer.themoviedb.org/reference/intro/getting-started)
+
+![Screenshot 1](public/docs/s1.png)
+![Screenshot 1](public/docs/s2.png)
+![Screenshot 1](public/docs/s3.png)
 
 ## Getting Started
 
