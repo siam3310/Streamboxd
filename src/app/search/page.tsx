@@ -13,12 +13,8 @@ const Page = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [searchPerformed, setSearchPerformed] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(
-    null
-  );
-  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(
-    null
-  );
+  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
   const router = useRouter();
 
   // Debounce search function
@@ -48,7 +44,7 @@ const Page = () => {
 
   // Load more results
   const handleLoadMore = async () => {
-    if (page >= totalPages) return;
+    if (page >= totalPages || loadingMore) return;
     setLoadingMore(true);
 
     try {
@@ -61,6 +57,7 @@ const Page = () => {
       const data = await response.json();
       setResults((prevResults) => [...prevResults, ...data.results]);
       setPage(nextPage);
+      setTotalPages(data.total_pages);
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -84,16 +81,13 @@ const Page = () => {
     setScrollTimeout(timeout);
   }, [loading, loadingMore, scrollTimeout]);
 
-  // Debounce search input removed
-  // Only search on button click now
-
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  const handleSlideClick = (movieId: number, type: string) => {
-    router.push(`/${type}/${movieId}`);
+  const handleSlideClick = (id: number, type: string) => {
+    router.push(`/${type}/${id}`);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -138,42 +132,44 @@ const Page = () => {
         {error && <p className="text-center text-red-500">{error}</p>}
         {!loading && results.length > 0 && (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-6">
-            {results.map((item) => (
-              <div
-                key={item.id}
-                className="cursor-pointer"
-                onClick={() =>
-                  handleSlideClick(
-                    item.id,
-                    item.first_air_date ? "tv_series_detail" : "movie_detail"
-                  )
-                }
-              >
-                <img
-                  src={
-                    item.poster_path
-                      ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
-                      : "/images/poster-holder.jpg"
+            {results
+              .filter(item => item.media_type === "movie" || item.media_type === "tv")
+              .map((item) => (
+                <div
+                  key={item.id}
+                  className="cursor-pointer"
+                  onClick={() =>
+                    handleSlideClick(
+                      item.id,
+                      item.media_type === "tv" ? "tv_series_detail" : "movie_detail"
+                    )
                   }
-                  alt={item.title || item.name}
-                  className="w-full h-64 object-cover rounded-lg shadow-lg"
-                />
-
-                <h2
-                  className="mt-2 text-lg font-semibold text-center"
-                  style={{
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    WebkitLineClamp: 2,
-                    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)",
-                  }}
                 >
-                  {item.title || item.name}
-                </h2>
-              </div>
-            ))}
+                  <img
+                    src={
+                      item.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
+                        : "/images/poster-holder.jpg"
+                    }
+                    alt={item.title || item.name}
+                    className="w-full h-64 object-cover rounded-lg shadow-lg"
+                  />
+
+                  <h2
+                    className="mt-2 text-lg font-semibold text-center"
+                    style={{
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      WebkitLineClamp: 2,
+                      textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)",
+                    }}
+                  >
+                    {item.title || item.name}
+                  </h2>
+                </div>
+              ))}
           </div>
         )}
         {!loading && results.length === 0 && searchPerformed && (
